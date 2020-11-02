@@ -1,5 +1,10 @@
-# social-chemistry-101
-Social Chemistry 101: Learning to Reason about Social and Moral Norms
+# Social Chemistry 101
+
+This repository is for code accompanying the paper:
+
+**Social Chemistry 101: Learning to Reason about Social and Moral Norms** <br/>
+Maxwell Forbes, Jena D. Hwang, Vered Shwartz, Maarten Sap, Yejin Choi <br/>
+_EMNLP 2020_
 
 ## Data
 
