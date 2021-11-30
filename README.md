@@ -117,6 +117,45 @@ If you'd like to use actions and action attributes (instead of RoTs and RoT attr
 specify an action model instead. The example code checks whether `"rot"` or `"action"` is in the
 model's path and loads examples accordingly.
 
+### Full Generation and Classification
+
+We've released the code and scripts for training attribute classifiers and running them
+on model generations. The process is a bit messy. Here are the rough steps:
+
+1. Train generative models (`scripts/train_generative_models.sh`, as above)
+  - Or, use a checkpoint we provide.
+  - This uses `sc/generative.py` or `sc/encoder_decoder.py` under the hood
+
+2. Generate (`scripts/generate_all.sh`)
+  - You will probably want to use fewer language models (change the `lms` bash var)
+  - This uses `sc/generate_texts.py` under the hood
+
+3. Turn generations (txt) into classifier-friendly format (table) (`sc/scripts/output_to_table.py`)
+
+4. Move classifier inputs each into their own directory (`sc/scripts/move_classifier_inputs.py`)
+
+5. Train attribute classifiers (`scripts/classifier_runs.sh`)
+  - This uses `sc/classify.py` under the hood
+  - Note that here we're training on the ground truth Social Chem 101 data, not the
+    model generations. As such, this step doesn't require any of the previous ones as a
+    prerequisite.
+
+6. Run trained classifiers on model generations (`sc/scripts/run_classifier.py`)
+  - This uses `sc/classify.py` under the hood
+
+_Note: `sc/model/cleaning.py` exists. If memory serves, its primary purpose was for
+generative outputs so malformed they couldn't be subsequently parsed, but it's also
+possible it was used more broadly to clean up occasional decoding glitches in all
+outputs._
+
+_Note: This was run during experiments for the paper, but unfortunately, the libraries we've
+used have since broken: the huggingface transformers v2.11 release hardcodes a version
+of their tokenizers library (v0.7) that fails to build currently because it uses rust
+and it contains rust code that errors with a modern rust compiler. As such, we haven't
+tested the above process using the latest repository structure. So, it's highly unlikely
+the whole pipeline "just works" without some tweaks. Please feel free to file a GitHub
+issue._
+
 ## Citation
 
 ```
@@ -213,7 +252,7 @@ Docs, code, and data to port over:
 - [x] test: training generative models
 - [x] data: pretrained models
 - [x] code: example of using model (command line "demo")
-- [ ] code: example of using model to generate full dataset outputs
-- [ ] code: evaluation
-- [ ] code: classifier
+- [x] code: example of using model to generate full dataset outputs
+- [x] code: classifier
 - [ ] code: baselines
+- [ ] code: human evaluation
