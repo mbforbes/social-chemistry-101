@@ -19,6 +19,8 @@ Download the Social-Chem-101 dataset [here](https://storage.googleapis.com/ai2-m
 
 The dataset schema is given in detail [below](#dataset-format). See the README in the dataset, as well as the appendix of the paper, for substantially more information about the dataset and its collection.
 
+The dataset is licensed under the [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license.
+
 ## Pretrained Models
 
 We provide two pretrained _Neural Norm Transformers_ using the GPT-2 architecture: one for rules-of-thumb (**RoTs**), and one for **actions**.
